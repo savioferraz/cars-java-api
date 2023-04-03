@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 import com.example.carsapi.DTO.CarDTO;
-import com.example.carsapi.models.Carros;
-import com.example.carsapi.repositories.CarsRepository;
+import com.example.carsapi.models.Car;
+import com.example.carsapi.services.CarsService;
 
 @RestController
 @RequestMapping("/cars")
@@ -27,43 +27,35 @@ import com.example.carsapi.repositories.CarsRepository;
 public class CarsController {
 
     @Autowired
-    private CarsRepository repository;
+    private CarsService service;
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void registerCar(@RequestBody @Valid CarDTO req) {
-        repository.save(new Carros(req));
+    public void createCar(@RequestBody @Valid CarDTO req) {
+        service.createCar(new Car(req));
     }
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    public List<Carros> findAll() {
-        return repository.findAll();
+    public List<Car> findAllCars() {
+        return service.findAllCars();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
-    public Optional<Carros> findById(@PathVariable int id) {
-        return repository.findById(id);
+    public Optional<Car> findCarById(@PathVariable int id) {
+        return service.findCarById(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteCar(@PathVariable int id) {
-        repository.deleteById(id);
+        service.deleteCar(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public void updateCar(@PathVariable int id, @RequestBody @Valid CarDTO req) {
-        repository.findById(id).map(car -> {
-            car.setNome(req.nome());
-            car.setModelo(req.modelo());
-            car.setFabricante(req.fabricante());
-            car.setDataFabricacao(req.dataFabricacao());
-            car.setValor(req.valor());
-            car.setAnoModelo(req.anoModelo());
-            return repository.save(car);
-        });
+        service.updateCar(id, req);
     }
 }

@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-public class Carros {
+public class Car {
 
-    public Carros(CarDTO req) {
+    public Car(CarDTO req) {
         this.nome = req.nome();
         this.modelo = req.modelo();
         this.fabricante = req.dataFabricacao();
