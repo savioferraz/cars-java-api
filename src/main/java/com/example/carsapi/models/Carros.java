@@ -1,6 +1,7 @@
 package com.example.carsapi.models;
 
 import com.example.carsapi.DTO.CarDTO;
+import com.example.carsapi.models.enums.Modelo;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
